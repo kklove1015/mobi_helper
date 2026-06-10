@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
 import 'core/window/window_setup.dart';
@@ -8,5 +9,5 @@ Future<void> main() async {
 
   await setupWindow();
 
-  runApp(const MobiHelperApp());
+  runApp(const ProviderScope(child: MobiHelperApp()));
 }

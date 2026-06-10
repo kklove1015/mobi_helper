@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'features/dashboard/screens/dashboard_screen.dart';
 import 'features/server_select/screens/server_select_screen.dart';
 import 'shared/widgets/app_title_bar.dart';
+import 'features/character_select/screens/character_select_screen.dart';
+import 'features/task_detail/screens/task_detail_screen.dart';
+import 'core/theme/app_theme.dart';
 
 class MobiHelperApp extends StatelessWidget {
   const MobiHelperApp({super.key});
@@ -22,6 +25,22 @@ class MobiHelperApp extends StatelessWidget {
           return const AppShell(child: ServerSelectScreen());
         },
       ),
+      GoRoute(
+        path: '/servers/:serverId/characters',
+        builder: (context, state) {
+          final serverId = state.pathParameters['serverId'] ?? '';
+
+          return AppShell(child: CharacterSelectScreen(serverId: serverId));
+        },
+      ),
+      GoRoute(
+        path: '/characters/:characterId/tasks',
+        builder: (context, state) {
+          final characterId = state.pathParameters['characterId'] ?? '';
+
+          return AppShell(child: TaskDetailScreen(characterId: characterId));
+        },
+      ),
     ],
   );
 
@@ -30,67 +49,7 @@ class MobiHelperApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Mobi Helper',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        fontFamily: 'AppFont',
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: const Color(0xFFFAFBFF),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00A8FF),
-          brightness: Brightness.light,
-        ),
-
-        filledButtonTheme: FilledButtonThemeData(
-          style: FilledButton.styleFrom(
-            backgroundColor: const Color(0xFF00A8FF),
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-            textStyle: const TextStyle(
-              fontFamily: 'AppFont',
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: const Color(0xFF00A8FF),
-            textStyle: const TextStyle(
-              fontFamily: 'AppFont',
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-
-        switchTheme: SwitchThemeData(
-          thumbColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return Colors.white;
-            }
-
-            return const Color(0xFF8B949E);
-          }),
-          trackColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return const Color(0xFF00A8FF);
-            }
-
-            return const Color(0xFFE5E7EB);
-          }),
-          trackOutlineColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return const Color(0xFF00A8FF);
-            }
-
-            return const Color(0xFFCBD5E1);
-          }),
-        ),
-      ),
+      theme: AppTheme.light(),
       routerConfig: _router,
     );
   }
